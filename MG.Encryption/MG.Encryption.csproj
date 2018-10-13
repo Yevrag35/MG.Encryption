@@ -44,6 +44,7 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Exceptions.cs" />
     <Compile Include="Objects\MGString.cs" />
     <Compile Include="Objects\PlainTextString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

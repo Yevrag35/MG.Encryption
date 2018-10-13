@@ -5,7 +5,7 @@ using System.Security;
 
 namespace MG.Encryption
 {
-    public abstract class MGString : IEnumerable<string>
+    public abstract class SecurableString : IEnumerable<string>
     {
         internal abstract string Value { get; }
 

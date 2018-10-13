@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MG.Encryption
 {
-    public class PlainTextString : MGString
+    public class PlainTextString : SecurableString
     {
         private readonly string _val;
         internal override string Value => _val;
