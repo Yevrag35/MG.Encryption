@@ -42,19 +42,25 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\Exceptions.cs" />
-    <Compile Include="Objects\MGString.cs" />
+    <Compile Include="Cmdlets\ProtectString.cs" />
+    <Compile Include="Cmdlets\UnprotectString.cs" />
+    <Compile Include="Encryption\Methods.cs" />
+    <Compile Include="Exceptions\Exceptions.cs" />
+    <Compile Include="Objects\SecurableString.cs" />
     <Compile Include="Objects\PlainTextString.cs" />
+    <Compile Include="Objects\StringResult.cs" />
+    <Compile Include="Objects\UserNameParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
-    <Folder Include="Cmdlets\" />
+    <Folder Include="Module\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\ByteString.cs" />
+    <Compile Include="Objects\ProtectedString.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

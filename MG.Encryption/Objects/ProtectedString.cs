@@ -46,6 +46,12 @@ namespace MG.Encryption
 
         #endregion
 
+        #region Public Methods
+
+        public byte[] ToBytes() => Encoding.UTF8.GetBytes(this.Value);
+
+        #endregion
+
         #region Private Methods
 
         private protected bool Passes(string inStr) => 

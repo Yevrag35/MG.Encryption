@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Management.Automation;
-using System.Security;
+using System.Net;
 using System.Text;
 
 namespace MG.Encryption
@@ -19,5 +17,7 @@ namespace MG.Encryption
 
         public PSCredential AsCredential(PlainTextString userName) =>
             new PSCredential(userName, AsSecure());
+
+        internal protected byte[] ToPlainBytes() => Encoding.UTF8.GetBytes(this.Value);
     }
 }

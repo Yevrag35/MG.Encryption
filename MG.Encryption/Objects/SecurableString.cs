@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using System.Security;
 
 namespace MG.Encryption
@@ -21,6 +22,9 @@ namespace MG.Encryption
         }
 
         public override string ToString() => this.Value;
+
+        public string UrlEncode() => WebUtility.UrlEncode(this.Value);
+        public static string UrlDecode(string encodedStr) => WebUtility.UrlDecode(encodedStr);
 
         public IEnumerator<string> GetEnumerator() =>
             new List<string>(1) { this.Value }.GetEnumerator();
