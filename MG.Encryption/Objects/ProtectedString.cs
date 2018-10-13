@@ -9,7 +9,7 @@ namespace MG.Encryption
     {
         #region Properties/Fields/Constants
 
-        private protected const string exp = @"^MII[A-Z](?=.*\+)(?=.*\/)(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$";   // Not perfect; I know.  But at least it filters out stupid strings.
+        private protected const string exp = @"^MII[A-Z](?=.*\+)(?=.*\/).*$";   // Not perfect; I know.  But at least it filters out stupid strings.
         private readonly string _val;
         internal override string Value => _val;
 
@@ -55,7 +55,7 @@ namespace MG.Encryption
         #region Private Methods
 
         private protected bool Passes(string inStr) => 
-            inStr.Length >= 500 && inStr.Length <= 800 && Regex.IsMatch(inStr, exp) ? true : false;
+            inStr.Length >= 500 && Regex.IsMatch(inStr, exp) ? true : false;
 
         #endregion
     }

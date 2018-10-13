@@ -6,7 +6,7 @@
     Author = 'Mike Garvey'
     CompanyName = 'Yevrag35, LLC.'
     Copyright = '(c) 2018 Yevrag35, LLC.  All rights reserved.'
-    ModuleVersion = '1.0.0'
+    ModuleVersion = '1.0.1'
     PowerShellVersion = '5.0'
 	# PowerShellHostName = ''
 	# PowerShellHostVersion = ''
@@ -29,7 +29,7 @@
 	VariablesToExport = ''
 	FileList = @(
 		'MG.Encryption.dll',
-		'MG.Encryption.psd1'
+		'StringCertProtection.psd1'
 	)
 	PrivateData = @{
 		PSData = @{
@@ -38,7 +38,7 @@
 			# LicenseUri = ''
 			ProjectUri = 'https://git.yevrag35.com/gityev/mg.encryption.git'
 			# IconUri = ''
-			ReleaseNotes = 'Initial release of the module.'
+			ReleaseNotes = 'Removed the upper character limit on the Base64 strings.'
 		}
 	}
 }

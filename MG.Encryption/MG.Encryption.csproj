@@ -57,10 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
-    <Folder Include="Module\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Objects\ProtectedString.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="StringCertProtection\StringCertProtection.psd1" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
