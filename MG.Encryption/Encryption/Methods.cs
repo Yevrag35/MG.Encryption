@@ -93,13 +93,13 @@ namespace MG.Encryption
         private readonly string[] EnhancedUsages = new string[2] { "Server Authentication", "Client Authentication" };
         private protected List<CX509Extension> ExtensionsToAdd;
 
-        public X509Certificate2 GenerateNewCertificate(string subject, string friendlyName, DateTime validUntil, Algorithm hash, int KeyLength)
-        {
-            if (ExtensionsToAdd == null)
-                ExtensionsToAdd = new List<CX509Extension>();
+        //public X509Certificate2 GenerateNewCertificate(string subject, string friendlyName, DateTime validUntil, Algorithm hash, int KeyLength)
+        //{
+        //    if (ExtensionsToAdd == null)
+        //        ExtensionsToAdd = new List<CX509Extension>();
 
             
-        }
+        //}
 
         private protected void SetEnhancedUsages()
         {
