@@ -1,5 +1,7 @@
-﻿using MG.Encryption.Exceptions;
+﻿using CERTENROLLLib;
+using MG.Encryption.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Security.Cryptography;
@@ -52,6 +54,8 @@ namespace MG.Encryption
 
         #endregion
 
+        #region Encrypt/Decrypt
+
         public ProtectedString EncryptString(PlainTextString pts)
         {
             if (_cert == null)
@@ -81,5 +85,44 @@ namespace MG.Encryption
             PlainTextString pts = Encoding.UTF8.GetString(cms.ContentInfo.Content);
             return (StringResult)pts;
         }
+
+        #endregion
+
+        #region New Certificate Generation
+        private protected const string provName = "Microsoft Enhanced RSA and AES Cryptographic Provider";
+        private readonly string[] EnhancedUsages = new string[2] { "Server Authentication", "Client Authentication" };
+        private protected List<CX509Extension> ExtensionsToAdd;
+
+        public X509Certificate2 GenerateNewCertificate(string subject, string friendlyName, DateTime validUntil, Algorithm hash, int KeyLength)
+        {
+            if (ExtensionsToAdd == null)
+                ExtensionsToAdd = new List<CX509Extension>();
+
+            
+        }
+
+        private protected void SetEnhancedUsages()
+        {
+            var oids = new CObjectIds();
+            for (int i = 0; i < EnhancedUsages.Length; i++)
+            {
+                var s = EnhancedUsages[i];
+                var oid = new CObjectId();
+                var eu = Oid.FromFriendlyName(s, OidGroup.EnhancedKeyUsage);
+                oid.InitializeFromValue(eu.Value);
+            }
+            var eku = new CX509ExtensionEnhancedKeyUsage();
+            eku.InitializeEncode(oids);
+            ExtensionsToAdd.Add((CX509Extension)eku);
+        }
+
+        public enum Algorithm : int
+        {
+            SHA256 = 0,
+            SHA384 = 1,
+            SHA512 = 2
+        }
+
+        #endregion
     }
 }
