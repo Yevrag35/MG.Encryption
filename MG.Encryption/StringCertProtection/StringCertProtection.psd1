@@ -6,18 +6,19 @@
     Author = 'Mike Garvey'
     CompanyName = 'Yevrag35, LLC.'
     Copyright = '(c) 2018 Yevrag35, LLC.  All rights reserved.'
-    ModuleVersion = '1.0.1'
+    ModuleVersion = '1.1.0'
     PowerShellVersion = '5.0'
 	# PowerShellHostName = ''
 	# PowerShellHostVersion = ''
-	DotNetFrameworkVersion = '4.7.2'
+	DotNetFrameworkVersion = '4.6.1'
 	# RequiredModules = @()
     RequiredAssemblies = @(
+		'System.Collections',
         'System.Net',
         'System.Security'
     )
-	FunctionsToExport = ''
-	AliasesToExport = ''
+	FunctionsToExport = 'New-StringCertificate'
+	AliasesToExport = @('New-StringCert', 'nsc')
 	# FormatsToProcess = @()
 	# ScriptsToProcess = @()
 	# TypesToProcess = @()
@@ -25,7 +26,7 @@
 		'Protect-String',
 		'Unprotect-String'
 	)
-	# NestedModules = @()
+	NestedModules = @('StringCertCreation.psm1')
 	VariablesToExport = ''
 	FileList = @(
 		'MG.Encryption.dll',
