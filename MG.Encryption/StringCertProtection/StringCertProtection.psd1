@@ -5,7 +5,7 @@
     Description = 'A set of cmdlets to encrypt/decrypt sensitive strings using certificate-based encryption methods.'
     Author = 'Mike Garvey'
     CompanyName = 'Yevrag35, LLC.'
-    Copyright = '(c) 2018 Yevrag35, LLC.  All rights reserved.'
+    Copyright = '(c) 2019 Yevrag35, LLC.  All rights reserved.'
     ModuleVersion = '1.1.0'
     PowerShellVersion = '5.0'
 	# PowerShellHostName = ''
@@ -30,16 +30,17 @@
 	VariablesToExport = ''
 	FileList = @(
 		'MG.Encryption.dll',
+		'StringCertCreation.psm1',
 		'StringCertProtection.psd1'
 	)
 	PrivateData = @{
 		PSData = @{
 			Tags = 'Encryption', 'Certificate', 'SHA256', 'Protect', 'String', 'Encrypt', 'Decrypt',
-				'Module', 'Cmdlet', 'Credential', 'SecureString', 'Plain', 'Text', 'Unprotect'
+				'Module', 'Cmdlet', 'Credential', 'SecureString', 'Plain', 'Text', 'Unprotect', 'New', 'Generate'
 			# LicenseUri = ''
 			ProjectUri = 'https://git.yevrag35.com/gityev/mg.encryption.git'
 			# IconUri = ''
-			ReleaseNotes = 'Removed the upper character limit on the Base64 strings.'
+			ReleaseNotes = 'Adds new function ''New-StringCert'' for easily creating a self-signed encryption certificate.'
 		}
 	}
 }
