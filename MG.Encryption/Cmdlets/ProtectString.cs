@@ -7,7 +7,7 @@ namespace MG.Encryption
     [Cmdlet(VerbsSecurity.Protect, "String", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = "WithX509Certificate")]
     [CmdletBinding(PositionalBinding = false)]
-    [OutputType(typeof(ProtectedString))]
+    [OutputType(typeof(string))]
     public class ProtectString : PSCmdlet
     {
         [Parameter(Mandatory = true, Position = 0)]
@@ -28,7 +28,7 @@ namespace MG.Encryption
         public StoreLocation Location = StoreLocation.CurrentUser;
 
 
-        private protected Methods enc;
+        private Methods enc;
 
         protected override void ProcessRecord()
         {
@@ -37,7 +37,7 @@ namespace MG.Encryption
                 new Methods(Certificate) : new Methods(SHA1Thumbprint, Location);
 
             ProtectedString pStr = enc.EncryptString(String);
-            WriteObject(pStr);
+            WriteObject(pStr.ToString());
         }
 
     }
