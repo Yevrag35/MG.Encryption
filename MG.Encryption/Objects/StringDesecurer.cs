@@ -38,9 +38,9 @@ namespace MG.Encryption
         internal byte[] GetBytes()
         {
             byte[] newBytes = new byte[_origLength];
-            //ProtectedMemory.Unprotect(_backingBytes, MemoryProtectionScope.SameProcess);
+            ProtectedMemory.Unprotect(_backingBytes, MemoryProtectionScope.SameProcess);
             _backingBytes.ToList().CopyTo(ZERO, newBytes, ZERO, _origLength);
-            //ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
+            ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
             return newBytes;
         }
         private void Protect(byte[] realBytes)

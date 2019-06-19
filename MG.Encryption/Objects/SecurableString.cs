@@ -21,7 +21,6 @@ namespace MG.Encryption
         private SecurableString(SecureString ss)
             : base(ss) { }
 
-        //public string AsString() => base.Desecure();
         internal SecureString AsSecureString()
         {
             var ss = new SecureString();
@@ -41,11 +40,11 @@ namespace MG.Encryption
             return new NetworkCredential(userName, this.AsSecureString(), domain);
         }
 
-        //public string UrlEncode() => WebUtility.UrlEncode(this.AsString());
         public static string UrlEncode(string strToEncode) => WebUtility.UrlDecode(strToEncode);
         public static string UrlDecode(string encodedStr) => WebUtility.UrlDecode(encodedStr);
 
         public static implicit operator SecurableString(byte[] bytes) => new SecurableString(bytes);
+        public static implicit operator SecurableString(int integer) => new SecurableString(Convert.ToString(integer));
         public static implicit operator SecurableString(string plainStr) => new SecurableString(plainStr);
         public static implicit operator SecurableString(NetworkCredential netCreds) => new SecurableString(netCreds.SecurePassword.Copy());
         public static implicit operator SecurableString(PSCredential psCreds) => new SecurableString(psCreds.Password.Copy());
