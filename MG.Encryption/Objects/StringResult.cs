@@ -19,10 +19,11 @@ namespace MG.Encryption
             UrlEncodedString = pts.UrlEncode();
         }
 
+        public override string ToString() => this.String.ToString();
+
         public static explicit operator StringResult(SecurableString pts) =>
             new StringResult(pts);
-        //public static implicit operator StringResult(string inStr) =>
-        //    new StringResult(inStr);
 
+        public static explicit operator string(StringResult sr) => sr.ToString();
     }
 }
