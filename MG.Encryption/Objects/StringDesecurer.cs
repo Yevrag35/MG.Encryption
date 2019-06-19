@@ -46,7 +46,12 @@ namespace MG.Encryption
         private void Protect(byte[] realBytes)
         {
             _origLength = realBytes.Length;
-            int newLength = Convert.ToInt32(Math.Round(_origLength / BYTE_BASE, ZERO, MidpointRounding.AwayFromZero) * BYTE_BASE);
+            double round = Math.Round(_origLength / BYTE_BASE, ZERO, MidpointRounding.AwayFromZero);
+            if (round.Equals(ZERO))
+                round++;
+
+            int newLength = Convert.ToInt32(round * BYTE_BASE);
+
             _numOfBlanks = newLength - _origLength;
 
             _backingBytes = new byte[newLength];
