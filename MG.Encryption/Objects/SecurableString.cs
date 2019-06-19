@@ -1,34 +1,55 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Management.Automation;
 using System.Net;
 using System.Security;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace MG.Encryption
 {
-    public abstract class SecurableString : IEnumerable<string>
+    public class SecurableString : StringDesecurer
     {
-        internal abstract string Value { get; }
+        private SecurableString(byte[] bytes)
+            : base(bytes) { }
 
-        public SecureString AsSecure()
+        private SecurableString(string plainStr)
+            : base(plainStr) { }
+
+        private SecurableString(SecureString ss)
+            : base(ss) { }
+
+        //public string AsString() => base.Desecure();
+        internal SecureString AsSecureString()
         {
             var ss = new SecureString();
-            for (int i = 0; i < this.Value.Length; i++)
+            string plain = base.Desecure();
+            for (int i = 0; i < plain.Length; i++)
             {
-                char c = this.Value[i];
-                ss.AppendChar(c);
+                ss.AppendChar(plain[i]);
             }
             return ss;
         }
+        internal PSCredential AsPSCredential(string userName)
+        {
+            return new PSCredential(userName, this.AsSecureString());
+        }
+        internal NetworkCredential AsNetworkCredential(string userName, string domain = null)
+        {
+            return new NetworkCredential(userName, this.AsSecureString(), domain);
+        }
 
-        public override string ToString() => this.Value;
-
-        public string UrlEncode() => WebUtility.UrlEncode(this.Value);
+        //public string UrlEncode() => WebUtility.UrlEncode(this.AsString());
+        public static string UrlEncode(string strToEncode) => WebUtility.UrlDecode(strToEncode);
         public static string UrlDecode(string encodedStr) => WebUtility.UrlDecode(encodedStr);
 
-        public IEnumerator<string> GetEnumerator() =>
-            new List<string>(1) { this.Value }.GetEnumerator();
-        IEnumerator IEnumerable.GetEnumerator() =>
-            new List<string>(1) { this.Value }.GetEnumerator();
+        public static implicit operator SecurableString(byte[] bytes) => new SecurableString(bytes);
+        public static implicit operator SecurableString(string plainStr) => new SecurableString(plainStr);
+        public static implicit operator SecurableString(NetworkCredential netCreds) => new SecurableString(netCreds.SecurePassword.Copy());
+        public static implicit operator SecurableString(PSCredential psCreds) => new SecurableString(psCreds.Password.Copy());
+        public static implicit operator SecurableString(SqlCredential sqlCreds) => new SecurableString(sqlCreds.Password.Copy());
+        public static implicit operator SecurableString(SecureString ss) => new SecurableString(ss.Copy());
     }
 }

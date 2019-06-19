@@ -1,80 +1,31 @@
-﻿using System;
+﻿using MG.Dynamic;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.SqlClient;
 using System.Management.Automation;
+using System.Net;
+using System.Security;
+using System.Text;
 
 namespace MG.Encryption.Cmdlets
 {
-    [Cmdlet(VerbsSecurity.Unprotect, "String", DefaultParameterSetName = "ByBase64String")]
+    [Cmdlet(VerbsSecurity.Unprotect, "String")]
     [CmdletBinding(PositionalBinding = false)]
-    [OutputType(typeof(StringResult))]
-    public class UnprotectString : PSCmdlet, IDynamicParameters
+    public class UnprotectString : BaseUnprotectCmdlet, IDynamicParameters
     {
-        [Parameter(Mandatory = true, ValueFromPipeline = true, 
-            ParameterSetName = "ByEncryptedBytes")]
-        [Alias("bytes", "b")]
-        public byte[] EncryptedBytes { get; set; }
+        #region PARAMETERS
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, Position = 0,
-            ParameterSetName = "ByBase64String")]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, Position = 0)]
         [Alias("string", "s")]
-        public ProtectedString ProtectedString { get; set; }
+        public SecurableString SecurableString { get; set; }
 
-        [Parameter(Mandatory = false)]
-        [Alias("out", "as")]
-        public OutputAs Output = OutputAs.StringResult;
+        #endregion
 
-        private protected Methods enc;
-        private protected UserNameParameter unp = new UserNameParameter();
-        private protected RuntimeDefinedParameterDictionary pLib;
+        protected override void BeginProcessing() => base.BeginProcessing();
 
-        public object GetDynamicParameters()
-        {
-            if (Output == OutputAs.PSCredential)
-            {
-                pLib = new RuntimeDefinedParameterDictionary()
-                {
-                    { unp.Name, unp }
-                };
-                return pLib;
-            }
-            return null;
-        }
+        protected override void ProcessRecord() => outStr = enc.DecryptContent(this.SecurableString);
 
-        protected override void ProcessRecord()
-        {
-            base.ProcessRecord();
-
-            //if (EncryptedBytes != null && ProtectedString != null)
-            //    throw new ArgumentException("Specify only bytes or a string!");
-            //else if (EncryptedBytes == null && ProtectedString == null)
-            //    throw new ArgumentNullException("Specify either bytes or a string!");
-
-            enc = new Methods();
-            ProtectedString pStr = EncryptedBytes == null ? ProtectedString : EncryptedBytes;
-            StringResult res = enc.DecryptContent(pStr);
-
-            switch (Output)
-            {
-                case OutputAs.PSCredential:
-                    var pts = (PlainTextString)res.String;
-                    var username = pLib[unp.Name].Value as string;
-
-                    WriteObject(pts.AsCredential(username));
-                    break;
-                case OutputAs.SecureString:
-                    var ss = (PlainTextString)res.String;
-                    WriteObject(ss.AsSecure());
-                    break;
-                default:
-                    WriteObject(res);
-                    break;
-            }
-        }
-    }
-
-    public enum OutputAs
-    {
-        StringResult = 0,
-        PSCredential = 1,
-        SecureString = 2
+        protected override void EndProcessing() => base.EndProcessing();
     }
 }

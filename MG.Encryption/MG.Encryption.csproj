@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MG.Encryption</RootNamespace>
     <AssemblyName>MG.Encryption</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,35 +34,37 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MG.Dynamic">
+      <HintPath>..\..\..\..\..\..\Repos\MG.Encryption\MG.Encryption\Assemblies\MG.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Assemblies\System.Management.Automation.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cmdlets\Bases\BaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Bases\BaseProtectCmdlet.cs" />
+    <Compile Include="Cmdlets\Bases\BaseUnprotectCmdlet.cs" />
+    <Compile Include="Cmdlets\ProtectStringToRegistry.cs" />
+    <Compile Include="Cmdlets\UnprotectStringFromRegistry.cs" />
     <Compile Include="Cmdlets\ProtectString.cs" />
     <Compile Include="Cmdlets\UnprotectString.cs" />
     <Compile Include="Encryption\Methods.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Objects\SecurableString.cs" />
-    <Compile Include="Objects\PlainTextString.cs" />
-    <Compile Include="Objects\StringResult.cs" />
-    <Compile Include="Objects\UserNameParameter.cs" />
+    <Compile Include="Objects\StringDesecurer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assemblies\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\ProtectedString.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="packages.config" />
     <None Include="StringCertProtection\StringCertProtection.psd1" />
   </ItemGroup>
   <ItemGroup>

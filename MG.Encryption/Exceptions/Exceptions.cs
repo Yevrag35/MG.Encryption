@@ -35,11 +35,18 @@ namespace MG.Encryption.Exceptions
 
     public class ProtectedStringDecryptionException : CryptographicException
     {
-        private protected const string defMsg = "{0} was unable to be decrypted.  {1}";
+        private protected const string defMsg = "The string was unable to be decrypted.  {0}";
 
-        public readonly ProtectedString ProtectedString;
+        public ProtectedStringDecryptionException(Exception innerException)
+            : base(string.Format(defMsg, GetInnerException(innerException).Message), GetInnerException(innerException)) { }
 
-        public ProtectedStringDecryptionException(ProtectedString pStr, Exception innerException)
-            : base(string.Format(defMsg, pStr.ToString(), innerException.Message), innerException) => ProtectedString = pStr;
+        private static Exception GetInnerException(Exception e)
+        {
+            while (e.InnerException != null)
+            {
+                e = e.InnerException;
+            }
+            return e;
+        }
     }
 }

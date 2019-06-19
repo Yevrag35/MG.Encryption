@@ -56,22 +56,23 @@ namespace MG.Encryption
 
         #region Encrypt/Decrypt
 
-        public ProtectedString EncryptString(PlainTextString pts)
+        public SecurableString EncryptString(SecurableString pts)
         {
             if (_cert == null)
                 throw new InvalidOperationException("The encryption certificate is still not set!  Use the 'SetCertificate' method first.");
 
-            var cinfo = new ContentInfo(pts.ToPlainBytes());
+            var cinfo = new ContentInfo(pts.GetBytes());
             var cms = new EnvelopedCms(cinfo);
             var recipient = new CmsRecipient(_cert);
             cms.Encrypt(recipient);
-            ProtectedString base64 = Convert.ToBase64String(cms.Encode());
+            SecurableString base64 = Convert.ToBase64String(cms.Encode());
             return base64;
         }
 
-        public StringResult DecryptContent(ProtectedString pStr)
+        internal SecurableString DecryptContent(SecurableString pStr)
         {
-            byte[] content = Convert.FromBase64String(pStr.ToString());
+            byte[] sBytes = pStr.GetBytes();
+            byte[] content = Convert.FromBase64String(Encoding.UTF8.GetString(sBytes));
             var cms = new EnvelopedCms();
             cms.Decode(content);
             try
@@ -80,10 +81,10 @@ namespace MG.Encryption
             }
             catch (Exception ex)
             {
-                throw new ProtectedStringDecryptionException(pStr, ex);
+                throw new ProtectedStringDecryptionException(ex);
             }
-            PlainTextString pts = Encoding.UTF8.GetString(cms.ContentInfo.Content);
-            return (StringResult)pts;
+            SecurableString pts = Encoding.UTF8.GetString(cms.ContentInfo.Content);
+            return pts;
         }
 
         #endregion
