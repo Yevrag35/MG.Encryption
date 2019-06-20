@@ -115,13 +115,4 @@ namespace MG.Encryption.PowerShell
 
         #endregion
     }
-
-    public enum OutputAs
-    {
-        String,
-        PSCredential,
-        SecureString,
-        NetworkCredential,
-        SqlCredential
-    }
 }

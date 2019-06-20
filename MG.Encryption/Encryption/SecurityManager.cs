@@ -10,7 +10,7 @@ using System.Text;
 
 namespace MG.Encryption
 {
-    public class SecurityManager : IDisposable
+    public partial class SecurityManager : IDisposable
     {
         private bool _isDisp = false;
         public X509Certificate2 Certificate { get; private set; }
