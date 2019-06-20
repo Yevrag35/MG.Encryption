@@ -98,6 +98,8 @@ namespace MG.Encryption
             return new StringSecurer(str);
         }
 
+        internal static ISecurable FromBase64String(string base64) => new StringSecurer(base64);
+
         #endregion
     }
 }
