@@ -8,7 +8,7 @@ using System.Net;
 using System.Security;
 using System.Text;
 
-namespace MG.Encryption.Cmdlets
+namespace MG.Encryption.PowerShell
 {
     public abstract class BaseUnprotectCmdlet : BaseCmdlet, IDynamicParameters
     {

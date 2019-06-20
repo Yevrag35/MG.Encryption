@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MG.Encryption")]
-[assembly: AssemblyDescription("Provides mechanisms for encrypting and decrypting sensitive data.")]
+[assembly: AssemblyDescription("A PowerShell module for implementing MG.Encryption procedures.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yevrag35, LLC.")]
 [assembly: AssemblyProduct("MG.Encryption")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("951eaa36-fdd2-4c1c-8a1a-572e804eaf98")]
+[assembly: Guid("e4b1f877-ed4d-4523-b4fb-8dee4ceed184")]
 
 // Version information for an assembly consists of the following four values:
 //

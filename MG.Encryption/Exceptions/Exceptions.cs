@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 
-namespace MG.Encryption.Exceptions
+namespace MG.Encryption
 {
     public class InvalidProtectedStringException : ArgumentException
     {

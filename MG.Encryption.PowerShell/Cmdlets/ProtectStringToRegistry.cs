@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Security;
 using System.Text;
 
-namespace MG.Encryption.Cmdlets
+namespace MG.Encryption.PowerShell
 {
     [Cmdlet(VerbsSecurity.Protect, "StringToRegistry", ConfirmImpact = ConfirmImpact.Low, SupportsShouldProcess = true, DefaultParameterSetName = "WithX509CertificateAsString")]
     [CmdletBinding(PositionalBinding = false)]

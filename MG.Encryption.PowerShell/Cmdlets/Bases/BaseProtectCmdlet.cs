@@ -3,7 +3,7 @@ using System.Management.Automation;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace MG.Encryption.Cmdlets
+namespace MG.Encryption.PowerShell
 {
     public class BaseProtectCmdlet : BaseCmdlet
     {
@@ -39,7 +39,7 @@ namespace MG.Encryption.Cmdlets
         protected override void ProcessRecord()
         {
             enc = this.Certificate != null ?
-                new Methods(Certificate) : new Methods(SHA1Thumbprint, Location);
+                new SecurityManager(Certificate) : new SecurityManager(SHA1Thumbprint, Location);
 
             outStr = enc.EncryptString(Securable);
             if (outStr == null)

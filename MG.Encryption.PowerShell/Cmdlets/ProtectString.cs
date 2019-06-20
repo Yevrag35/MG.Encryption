@@ -3,7 +3,7 @@ using System.Management.Automation;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
-namespace MG.Encryption.Cmdlets
+namespace MG.Encryption.PowerShell
 {
     [Cmdlet(VerbsSecurity.Protect, "String", ConfirmImpact = ConfirmImpact.None,
         DefaultParameterSetName = "WithX509CertificateAsString")]

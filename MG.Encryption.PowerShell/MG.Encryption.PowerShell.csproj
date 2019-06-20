@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{951EAA36-FDD2-4C1C-8A1A-572E804EAF98}</ProjectGuid>
+    <ProjectGuid>{E4B1F877-ED4D-4523-B4FB-8DEE4CEED184}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MG.Encryption</RootNamespace>
-    <AssemblyName>MG.Encryption</AssemblyName>
+    <RootNamespace>MG.Encryption.PowerShell</RootNamespace>
+    <AssemblyName>MG.Encryption.PowerShell</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -24,7 +25,7 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -33,18 +34,39 @@
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MG.Dynamic">
+      <HintPath>Assemblies\MG.Dynamic.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.PowerShell.5.ReferenceAssemblies.1.1.0\lib\net4\System.Management.Automation.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Encryption\SecurityManager.cs" />
-    <Compile Include="Exceptions\Exceptions.cs" />
-    <Compile Include="Objects\ISecurable.cs" />
-    <Compile Include="Objects\StringSecurer.cs" />
+    <Compile Include="Cmdlets\Bases\BaseCmdlet.cs" />
+    <Compile Include="Cmdlets\Bases\BaseProtectCmdlet.cs" />
+    <Compile Include="Cmdlets\Bases\BaseUnprotectCmdlet.cs" />
+    <Compile Include="Cmdlets\ProtectStringToRegistry.cs" />
+    <Compile Include="Cmdlets\UnprotectStringFromRegistry.cs" />
+    <Compile Include="Cmdlets\ProtectString.cs" />
+    <Compile Include="Cmdlets\UnprotectString.cs" />
+    <Compile Include="Objects\SecurableString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assemblies\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DebugScript.ps1">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config" />
+    <None Include="StringCertProtection\StringCertProtection.psd1" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="CERTENROLLLib">
@@ -56,6 +78,12 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MG.Encryption\MG.Encryption.csproj">
+      <Project>{951eaa36-fdd2-4c1c-8a1a-572e804eaf98}</Project>
+      <Name>MG.Encryption</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

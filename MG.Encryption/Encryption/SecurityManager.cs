@@ -1,5 +1,4 @@
 ﻿using CERTENROLLLib;
-using MG.Encryption.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,18 +10,17 @@ using System.Text;
 
 namespace MG.Encryption
 {
-    public class Methods
+    public class SecurityManager : IDisposable
     {
-        private X509Certificate2 _cert = null;
-        public X509Certificate2 Certificate => _cert;
+        private bool _isDisp = false;
+        public X509Certificate2 Certificate { get; private set; }
 
         #region Constructors
 
-        public Methods() { }
+        public SecurityManager() { }
 
-        public Methods(string sha1Thumbprint, StoreLocation location)
+        public SecurityManager(string sha1Thumbprint, StoreLocation location)
         {
-            _cert = new X509Certificate2();
             using (var store = new X509Store(location))
             {
                 store.Open(OpenFlags.OpenExistingOnly);
@@ -38,41 +36,63 @@ namespace MG.Encryption
                 if (certs == null || certs.Count == 0)
                     throw new ThumbprintNotFoundException(sha1Thumbprint, location);
                 else
-                    _cert = certs[0];
+                    this.Certificate = certs[0];
             }
         }
-        public Methods(string sha1Thumbprint) : this(sha1Thumbprint, StoreLocation.CurrentUser)
-        {
-        }
-        public Methods(X509Certificate2 certificate) => SetCertificate(certificate);
+        public SecurityManager(string sha1Thumbprint) 
+            : this(sha1Thumbprint, StoreLocation.CurrentUser) { }
+        public SecurityManager(X509Certificate2 certificate) => this.SetCertificate(certificate);
 
         #endregion
 
+        public virtual void Dispose()
+        {
+            if (!_isDisp)
+            {
+                if (this.Certificate != null)
+                    this.Certificate.Dispose();
+
+                GC.SuppressFinalize(this.Certificate);
+                GC.SuppressFinalize(this);
+
+                _isDisp = true;
+            }
+        }
+
         #region Add Certificate Method
 
-        public void SetCertificate(X509Certificate2 certificate) => _cert = certificate;
+        public void SetCertificate(X509Certificate2 certificate)
+        {
+            if (_isDisp)
+                throw new ObjectDisposedException("SecurityManager");
+
+            this.Certificate = certificate;
+        }
 
         #endregion
 
         #region Encrypt/Decrypt
 
-        public SecurableString EncryptString(SecurableString pts)
+        public ISecurable EncryptString(ISecurable pts)
         {
-            if (_cert == null)
+            if (_isDisp)
+                throw new ObjectDisposedException("SecurityManager");
+
+            if (this.Certificate == null)
                 throw new InvalidOperationException("The encryption certificate is still not set!  Use the 'SetCertificate' method first.");
 
             var cinfo = new ContentInfo(pts.GetBytes());
             var cms = new EnvelopedCms(cinfo);
-            var recipient = new CmsRecipient(_cert);
+            var recipient = new CmsRecipient(this.Certificate);
             cms.Encrypt(recipient);
-            SecurableString base64 = Convert.ToBase64String(cms.Encode());
+            var base64 = StringSecurer.ToBase64Securable(cms.Encode());
             return base64;
         }
 
-        internal SecurableString DecryptContent(SecurableString pStr)
+        public ISecurable DecryptContent(ISecurable pStr)
         {
             byte[] sBytes = pStr.GetBytes();
-            byte[] content = Convert.FromBase64String(Encoding.UTF8.GetString(sBytes));
+            byte[] content = StringSecurer.FromBase64BytesToBytes(sBytes);
             var cms = new EnvelopedCms();
             cms.Decode(content);
             try
@@ -83,7 +103,7 @@ namespace MG.Encryption
             {
                 throw new ProtectedStringDecryptionException(ex);
             }
-            SecurableString pts = Encoding.UTF8.GetString(cms.ContentInfo.Content);
+            var pts = StringSecurer.FromBase64Bytes(cms.ContentInfo.Content);
             return pts;
         }
 
@@ -93,14 +113,6 @@ namespace MG.Encryption
         private protected const string provName = "Microsoft Enhanced RSA and AES Cryptographic Provider";
         private readonly string[] EnhancedUsages = new string[2] { "Server Authentication", "Client Authentication" };
         private protected List<CX509Extension> ExtensionsToAdd;
-
-        //public X509Certificate2 GenerateNewCertificate(string subject, string friendlyName, DateTime validUntil, Algorithm hash, int KeyLength)
-        //{
-        //    if (ExtensionsToAdd == null)
-        //        ExtensionsToAdd = new List<CX509Extension>();
-
-            
-        //}
 
         private protected void SetEnhancedUsages()
         {

@@ -5,12 +5,10 @@ using System.Data.SqlClient;
 using System.Management.Automation;
 using System.Net;
 using System.Security;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace MG.Encryption
+namespace MG.Encryption.PowerShell
 {
-    public class SecurableString : StringDesecurer
+    public class SecurableString : StringSecurer, ISecurable
     {
         private SecurableString(byte[] bytes)
             : base(bytes) { }
@@ -20,25 +18,6 @@ namespace MG.Encryption
 
         private SecurableString(SecureString ss)
             : base(ss) { }
-
-        internal SecureString AsSecureString()
-        {
-            var ss = new SecureString();
-            string plain = base.Desecure();
-            for (int i = 0; i < plain.Length; i++)
-            {
-                ss.AppendChar(plain[i]);
-            }
-            return ss;
-        }
-        internal PSCredential AsPSCredential(string userName)
-        {
-            return new PSCredential(userName, this.AsSecureString());
-        }
-        internal NetworkCredential AsNetworkCredential(string userName, string domain = null)
-        {
-            return new NetworkCredential(userName, this.AsSecureString(), domain);
-        }
 
         public static string UrlEncode(string strToEncode) => WebUtility.UrlDecode(strToEncode);
         public static string UrlDecode(string encodedStr) => WebUtility.UrlDecode(encodedStr);

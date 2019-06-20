@@ -7,7 +7,7 @@ using System.Management.Automation;
 using System.Reflection;
 using System.Security;
 
-namespace MG.Encryption.Cmdlets
+namespace MG.Encryption.PowerShell
 {
     [Cmdlet(VerbsSecurity.Unprotect, "StringFromRegistry", ConfirmImpact = ConfirmImpact.Low, SupportsShouldProcess = true)]
     [CmdletBinding(PositionalBinding = false)]
