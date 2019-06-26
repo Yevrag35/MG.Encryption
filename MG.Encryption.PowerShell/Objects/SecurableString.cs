@@ -24,7 +24,9 @@ namespace MG.Encryption.PowerShell
 
         public static implicit operator SecurableString(byte[] bytes) => new SecurableString(bytes);
         public static implicit operator SecurableString(int integer) => new SecurableString(Convert.ToString(integer));
+        public static implicit operator SecurableString(Enum enumVal) => new SecurableString(enumVal.ToString());
         public static implicit operator SecurableString(string plainStr) => new SecurableString(plainStr);
+        public static implicit operator SecurableString(Guid guid) => new SecurableString(guid.ToString());
         public static implicit operator SecurableString(NetworkCredential netCreds) => new SecurableString(netCreds.SecurePassword.Copy());
         public static implicit operator SecurableString(PSCredential psCreds) => new SecurableString(psCreds.Password.Copy());
         public static implicit operator SecurableString(SqlCredential sqlCreds) => new SecurableString(sqlCreds.Password.Copy());

@@ -12,7 +12,7 @@ namespace MG.Encryption
     public class StringSecurer : ISecurable
     {
         #region FIELDS/CONSTANTS
-        private const double BYTE_BASE = 16;
+        private const int BYTE_BASE = 16;
         private const int ZERO = 0;
 
         private int _origLength = ZERO;
@@ -57,11 +57,11 @@ namespace MG.Encryption
         void ISecurable.Protect(byte[] realBytes)
         {
             _origLength = realBytes.Length;
-            double round = Math.Round(_origLength / BYTE_BASE, ZERO, MidpointRounding.AwayFromZero);
-            if (round.Equals(ZERO))
-                round++;
 
-            int newLength = Convert.ToInt32(round * BYTE_BASE);
+            //double round = Math.Round(_origLength / BYTE_BASE, ZERO, MidpointRounding.AwayFromZero);
+            int round = _origLength / BYTE_BASE + 1;
+
+            int newLength = round * BYTE_BASE;
 
             _numOfBlanks = newLength - _origLength;
 

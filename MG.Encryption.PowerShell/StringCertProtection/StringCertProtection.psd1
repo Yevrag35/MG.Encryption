@@ -9,10 +9,10 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'MG.Encryption.dll'
+RootModule = 'MG.Encryption.PowerShell.dll'
 
 # Version number of this module.
-ModuleVersion = '2.0.1'
+ModuleVersion = '2.2.0'
 
 # Supported PSEditions
 CompatiblePSEditions = @('Desktop')
@@ -54,7 +54,7 @@ DotNetFrameworkVersion = '4.7'
 # RequiredModules = @()
 
 # Assemblies that must be loaded prior to importing this module
-RequiredAssemblies = @('MG.Dynamic.dll')
+RequiredAssemblies = @('MG.Dynamic.dll', 'MG.Encryption.dll')
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module.
 # ScriptsToProcess = @()
@@ -91,6 +91,7 @@ AliasesToExport = 'New-StringCert', 'nsc'
 FileList = @(
 	'MG.Dynamic.dll',
 	'MG.Encryption.dll',
+	'MG.Encryption.PowerShell.dll',
 	'StringCertCreation.psm1',
 	'StringCertProtection.psd1'
 )
@@ -115,7 +116,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'New cmdlets and better security functionality using System.Security.Cryptography.ProtectedMemory.'
+        ReleaseNotes = 'Fixed byte length error resulting in "Index was outside of bounds" exceptions for certain length passwords.'
 
     } # End of PSData hashtable
 
