@@ -38,8 +38,9 @@ namespace MG.Encryption.PowerShell
 
         protected override void ProcessRecord()
         {
-            enc = this.Certificate != null ?
-                new SecurityManager(Certificate) : new SecurityManager(SHA1Thumbprint, Location);
+            enc = this.Certificate != null
+                ? new CertificateSecurity(this.Certificate)
+                : new CertificateSecurity(this.SHA1Thumbprint, this.Location);
 
             outStr = enc.EncryptString(Securable);
             if (outStr == null)
@@ -51,7 +52,7 @@ namespace MG.Encryption.PowerShell
             if (!NoEnd)
             {
                 object outObj = OutputAs.Equals("String", StringComparison.CurrentCultureIgnoreCase)
-                    ? Encoding.UTF8.GetString(outStr.GetBytes())
+                    ? Encoding.ASCII.GetString(outStr.GetBytes())
                     : (object)outStr.GetBytes();
 
                 base.WriteObject(outObj, false);

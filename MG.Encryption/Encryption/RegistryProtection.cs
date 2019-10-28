@@ -8,9 +8,9 @@ using System.Text;
 
 namespace MG.Encryption
 {
-    public partial class SecurityManager
+    public sealed partial class CertificateSecurity
     {
-        public ISecurable ReadFromRegistry(string registryKey, string valueName)    
+        public static ISecurable ReadFromRegistry(string registryKey, string valueName)    
         {
             object regData = Registry.GetValue(registryKey, valueName, null);
             ISecurable isec = null;
@@ -27,15 +27,14 @@ namespace MG.Encryption
 
             return isec; // the output is still encrypted...
         }
-
-        public void WriteToRegistry(string registryKey, string valueName, ISecurable value, RegKind regAs)
+        public static void WriteToRegistry(string registryKey, string valueName, ISecurable value, RegKind regAs)
         {
             // the value should already be encrypted...
             RegistryValueKind kind;
             object writeThis = null;
             if (regAs == RegKind.String)
             {
-                writeThis = Encoding.UTF8.GetString(value.GetBytes());
+                writeThis = Encoding.ASCII.GetString(value.GetBytes());
                 kind = RegistryValueKind.String;
             }
             else

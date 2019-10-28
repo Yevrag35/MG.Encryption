@@ -16,13 +16,21 @@ namespace MG.Encryption.PowerShell
     {
         #region PARAMETERS
 
-        [Parameter(Mandatory = true, ValueFromPipeline = true, Position = 0)]
+        [Parameter(Mandatory = true, ValueFromPipeline = true, Position = 0, ParameterSetName = "FromSecurableString")]
         [Alias("string", "s")]
         public SecurableString SecurableString { get; set; }
 
+        [Parameter(Mandatory = true, Position = 0, ParameterSetName = "FromSecuredByteArray")]
+        public byte[] SecuredBytes { get; set; }
+
         #endregion
 
-        protected override void BeginProcessing() => base.BeginProcessing();
+        protected override void BeginProcessing()
+        {
+            base.BeginProcessing();
+            if (this.ParameterSetName == "FromSecuredByteArray")
+                this.SecurableString = this.SecuredBytes;
+        }
 
         protected override void ProcessRecord() => outStr = enc.DecryptContent(this.SecurableString);
 

@@ -12,7 +12,7 @@
 RootModule = 'MG.Encryption.PowerShell.dll'
 
 # Version number of this module.
-ModuleVersion = '2.2.0'
+ModuleVersion = '2.3.0'
 
 # Supported PSEditions
 CompatiblePSEditions = @('Desktop')
@@ -116,7 +116,7 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = 'Fixed byte length error resulting in "Index was outside of bounds" exceptions for certain length passwords.'
+        ReleaseNotes = 'Switched to use ASCII text encoding to accommodate Windows DPAPI.'
 
     } # End of PSData hashtable
 

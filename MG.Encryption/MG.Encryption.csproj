@@ -40,8 +40,9 @@
     <Reference Include="System.Security" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Encryption\CertificateSecurity.cs" />
     <Compile Include="Encryption\RegistryProtection.cs" />
-    <Compile Include="Encryption\SecurityManager.cs" />
+    <None Include="Encryption\SecurityManager.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Exceptions\Exceptions.cs" />
     <Compile Include="Objects\ISecurable.cs" />

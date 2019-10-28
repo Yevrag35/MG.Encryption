@@ -46,7 +46,7 @@ namespace MG.Encryption.PowerShell
                 if (this.OutputAs.Equals("String", StringComparison.CurrentCultureIgnoreCase))
                 {
                     kind = RegistryValueKind.String;
-                    writeThis = Encoding.UTF8.GetString(outStr.GetBytes());
+                    writeThis = Encoding.ASCII.GetString(outStr.GetBytes());
                 }
                 else
                 {

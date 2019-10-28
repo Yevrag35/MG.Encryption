@@ -12,17 +12,17 @@ namespace MG.Encryption
     public class StringSecurer : ISecurable
     {
         #region FIELDS/CONSTANTS
-        private const int BYTE_BASE = 16;
+        //private const int BYTE_BASE = 16;
         private const int ZERO = 0;
 
         private int _origLength = ZERO;
-        private int _numOfBlanks;
+        //private int _numOfBlanks;
         private byte[] _backingBytes;
 
         #endregion
 
         #region PROPERTIES
-        public virtual int Length => _origLength;
+        int ISecurable.Length => _origLength;
 
         #endregion
 
@@ -45,36 +45,26 @@ namespace MG.Encryption
             return ss;
         }
 
-        protected internal virtual string Desecure() => Encoding.UTF8.GetString(((ISecurable)this).GetBytes());
+        protected internal string Desecure() => Encoding.ASCII.GetString(((ISecurable)this).GetBytes());
         byte[] ISecurable.GetBytes()
         {
-            byte[] newBytes = new byte[_origLength];
-            ProtectedMemory.Unprotect(_backingBytes, MemoryProtectionScope.SameProcess);
-            _backingBytes.ToList().CopyTo(ZERO, newBytes, ZERO, _origLength);
-            ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
-            return newBytes;
+            return ProtectedData.Unprotect(_backingBytes, null, DataProtectionScope.CurrentUser);
+            //byte[] newBytes = new byte[_backingBytes.Length];
+            //ProtectedMemory.Unprotect(_backingBytes, MemoryProtectionScope.SameProcess);
+            //_backingBytes.ToList().CopyTo(ZERO, newBytes, ZERO, _backingBytes.Length);
+            //ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
+            //return newBytes;
         }
         void ISecurable.Protect(byte[] realBytes)
         {
-            _origLength = realBytes.Length;
-
-            //double round = Math.Round(_origLength / BYTE_BASE, ZERO, MidpointRounding.AwayFromZero);
-            int round = _origLength / BYTE_BASE + 1;
-
-            int newLength = round * BYTE_BASE;
-
-            _numOfBlanks = newLength - _origLength;
-
-            _backingBytes = new byte[newLength];
-            for (int i = 0; i < _origLength; i++)
-            {
-                _backingBytes[i] = realBytes[i];
-            }
-            ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
+            //_backingBytes = new byte[realBytes.Length];
+            //realBytes.CopyTo(_backingBytes, ZERO);
+            //ProtectedMemory.Protect(_backingBytes, MemoryProtectionScope.SameProcess);
+            _backingBytes = ProtectedData.Protect(realBytes, null, DataProtectionScope.CurrentUser);
         }
         void ISecurable.Protect(string str)
         {
-            byte[] realBytes = Encoding.UTF8.GetBytes(str);
+            byte[] realBytes = Encoding.ASCII.GetBytes(str);
             ((ISecurable)this).Protect(realBytes);
         }
         void ISecurable.StoreString(SecureString ss)
@@ -90,7 +80,7 @@ namespace MG.Encryption
             return new StringSecurer(str);
         }
 
-        internal static byte[] FromBase64BytesToBytes(byte[] baseBytes) => Convert.FromBase64String(Encoding.UTF8.GetString(baseBytes));
+        internal static byte[] FromBase64BytesToBytes(byte[] baseBytes) => Convert.FromBase64String(Encoding.ASCII.GetString(baseBytes));
 
         internal static ISecurable FromBase64Bytes(byte[] bytes)
         {
