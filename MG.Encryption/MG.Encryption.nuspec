@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>MG.Encryption</id>
+    <version>2.2.0</version>
+    <authors>Mike Garvey</authors>
+    <owners>Yevrag35, LLC.</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://git.yevrag35.com/gityev/mg.encryption.git</projectUrl>
+    <description>An assembly to provide support for C# PowerShell modules with dynamic parameters.</description>
+    <copyright>Copyright © 2019 Yevrag35, LLC.</copyright>
+    <repository type="Git" url="https://git.yevrag35.com/gityev/mg.encryption.git" />
+    <dependencies>
+		<group targetFramework=".NETFramework4.7">
+		</group>
+	</dependencies>
+  </metadata>
+  <files>
+    <file src="bin\Release\MG.Encryption.dll" target="lib\net47\MG.Encryption.dll" />
+  </files>
+</package>
