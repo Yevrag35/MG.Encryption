@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MG.Encryption")]
+[assembly: AssemblyTitle("MG.Encryption.PowerShell")]
 [assembly: AssemblyDescription("A PowerShell module for implementing MG.Encryption procedures.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Yevrag35, LLC.")]
-[assembly: AssemblyProduct("MG.Encryption")]
-[assembly: AssemblyCopyright("Copyright © 2019 Yevrag35, LLC.")]
+[assembly: AssemblyProduct("MG.Encryption.PowerShell")]
+[assembly: AssemblyCopyright("Copyright © 2019-2020 Yevrag35, LLC.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("2.2.0.0")]
-[assembly: AssemblyFileVersion("2.2.0.0")]
+[assembly: AssemblyVersion("2.3.1")]
+[assembly: AssemblyFileVersion("2.3.1")]
